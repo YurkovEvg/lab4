@@ -1,6 +1,7 @@
 package com.example.lab4
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -24,6 +25,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var trueButton: Button
     private lateinit var falseButton: Button
     private lateinit var nextButton: Button
+    private lateinit var cheatButton: Button
     private lateinit var questionTextView: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -50,11 +52,21 @@ class MainActivity : AppCompatActivity() {
         }
 
         nextButton = findViewById(R.id.next_button)
+        cheatButton = findViewById(R.id.cheat_button)
+
         questionTextView = findViewById(R.id.textViewQuestion)
 
         nextButton.setOnClickListener {
             quizViewModel.moveToNext()
             updateQuestion()
+        }
+        cheatButton.setOnClickListener {
+            val answerIsTrue =
+                quizViewModel.currentQuestionAnswer
+            val intent =
+                CheatActivity.newIntent(this@MainActivity,
+                    answerIsTrue)
+            startActivity(intent)
         }
         updateQuestion()
     }
